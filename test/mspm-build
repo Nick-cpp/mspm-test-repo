@@ -1,0 +1,11 @@
+#!/bin/sh
+
+depends=()
+
+install() {
+    echo test
+}
+
+remove() {
+    echo test123
+}
