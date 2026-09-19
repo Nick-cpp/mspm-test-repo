@@ -1,0 +1,26 @@
+#!/bin/bash
+
+version="1.7.5"
+_flatpakname=ru.linux_gaming.PortProton
+
+install() {
+    rm -f v${version}.tar.gz
+    wget https://github.com/Castro-Fidel/PortProton_ALT/archive/refs/tags/v${version}.tar.gz
+    tar -xf v${version}.tar.gz
+    cd PortProton_ALT-${version}/
+    install -Dm755 portproton /usr/bin/portproton
+    install -Dm644 ${_flatpakname}.desktop /usr/share/applications/${_flatpakname}.desktop
+    install -Dm644 ${_flatpakname}.metainfo.xml /usr/share/metainfo/${_flatpakname}.metainfo.xml
+    install -Dm644 ${_flatpakname}.svg /usr/share/icons/hicolor/scalable/apps/${_flatpakname}.svg
+    install -Dm644 LICENSE /usr/share/licenses/portproton
+    		
+}
+
+remove() {
+    rm -f /usr/bin/portproton
+    rm -f /usr/share/applications/${_flatpakname}.desktop
+    rm -f /usr/share/metainfo/${_flatpakname}.metainfo.xml
+    rm -f /usr/share/icons/hicolor/scalable/apps/${_flatpakname}.svg
+    rm -rf /usr/share/licenses/portproton
+    
+}
