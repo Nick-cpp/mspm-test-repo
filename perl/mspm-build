@@ -1,0 +1,27 @@
+#!/bin/bash
+
+version="5.44.0"
+depends=("pkgconf" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f perl-$version.tar.gz
+    wget https://www.cpan.org/src/5.0/perl-$version.tar.gz
+    rm -rf perl/
+    mkdir -p perl/
+    tar -xf perl-$version.tar.gz -C perl --strip-components=1
+    cd perl/
+
+	sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.44/core_perl -Darchlib=/usr/lib/perl5/5.44/core_perl -Dsitelib=/usr/lib/perl5/5.44/site_perl -Dsitearch=/usr/lib/perl5/5.44/site_perl -Dvendorlib=/usr/lib/perl5/5.44/vendor_perl -Dvendorarch=/usr/lib/perl5/5.44/vendor_perl -Duseshrplib -Dusethreads
+
+    make
+    make install
+}
+
+remove() {
+    rm -rf /usr/lib/perl5/5.44
+
+    rm -f /usr/bin/perl* /usr/bin/cpan* /usr/bin/corelist \
+         /usr/bin/prove /usr/bin/ptar* /usr/bin/shasum \
+         /usr/bin/pod* /usr/bin/h2ph /usr/bin/h2xs \
+         /usr/bin/json_pp /usr/bin/xsubpp /usr/bin/piconv
+}

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+version="3.0.4"
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f pkgconf-$version.tar.xz
+    wget https://github.com/pkgconf/pkgconf/releases/download/pkgconf-$version/pkgconf-$version.tar.xz
+    rm -rf pkgconf/
+    mkdir -p pkgconf/
+    tar -xf pkgconf-$version.tar.xz -C pkgconf --strip-components=1
+    cd pkgconf/
+    ./configure --prefix=/usr --sysconfdir=/etc --disable-static
+    make
+    make install
+    ln -sfv pkgconf /usr/bin/pkg-config
+}
+
+remove() {
+    cd pkgconf/
+    make uninstall
+    rm -f /usr/bin/pkg-config
+}

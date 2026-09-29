@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="2.42.2"
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f util-linux-$version.tar.xz
+    wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-$version.tar.xz
+    rm -rf util-linux/
+    mkdir -p util-linux/
+    tar -xf util-linux-$version.tar.xz -C util-linux --strip-components=1
+    cd util-linux/
+    ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-nls --disable-pam --disable-systemd --disable-chroot --disable-login --disable-su --disable-use-tty-group
+    make
+    make install
+}
+
+remove() {
+    cd util-linux/
+    make uninstall
+}

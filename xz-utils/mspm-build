@@ -1,0 +1,22 @@
+#!/bin/bash
+
+version="5.8.4"
+depends=("make" "gcc" "glibc" "automake" "autoconf" "libtool" "gettext" "tar")
+
+install() {
+    rm -f v$version.tar.gz
+    wget https://github.com/tukaani-project/xz/archive/refs/tags/v$version.tar.gz
+    rm -rf xz-utils/
+    mkdir -p xz-utils/
+    tar -xf v$version.tar.gz -C xz-utils --strip-components=1
+    cd xz-utils/
+    ./autogen.sh --no-po4a
+    ./configure --prefix=/usr --disable-static --docdir=/usr/share/doc/xz
+    make
+    make install
+}
+
+remove() {
+    cd xz-utils/
+    make uninstall
+}

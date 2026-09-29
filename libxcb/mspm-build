@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="1.17.0"
+depends=("make" "gcc" "glibc" "tar" "xz-utils" "libxau" "xcb-proto" "libxdmcp")
+
+install() {
+    rm -f libxcb-$version.tar.xz
+    wget https://xorg.freedesktop.org/archive/individual/lib/libxcb-$version.tar.xz
+    rm -rf libxcb/
+    mkdir -p libxcb/
+    tar -xf libxcb-$version.tar.xz -C libxcb --strip-components=1
+    cd libxcb/
+    ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-doxygen --docdir=/usr/share/doc/libxcb-$version
+    LC_ALL=en_US.UTF-8 make
+    make install
+}
+
+remove() {
+    cd libxcb/
+    make uninstall
+}

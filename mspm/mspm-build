@@ -1,0 +1,19 @@
+#!/bin/bash
+
+version="3.2"
+depends=("bash" "tar" "busybox")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/Nick-cpp/mspm/archive/refs/tags/$version.tar.gz
+    rm -rf mspm/
+    mkdir -p mspm/
+    tar -xf $version.tar.gz -C mspm/ --strip-components=1
+    cd mspm/
+    chmod +x mspm
+    cp mspm /usr/bin/
+}
+
+remove() {
+    rm -f /usr/bin/mspm
+}

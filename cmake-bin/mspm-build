@@ -1,0 +1,29 @@
+#!/bin/bash
+
+version="4.4.3"
+conflicts=("cmake")
+depends=("glibc" "tar")
+
+install() {
+    rm -f cmake-$version-linux-x86_64.tar.gz
+    wget https://github.com/Kitware/CMake/releases/download/v$version/cmake-$version-linux-x86_64.tar.gz
+    rm -rf cmake/
+    mkdir -p cmake
+    tar -xf cmake-$version-linux-x86_64.tar.gz -C cmake --strip-components=1
+
+    mkdir -p /opt/cmake
+
+    cp -r cmake/* /opt/cmake/
+
+    for bin in /opt/cmake/bin/*; do
+        name=$(basename "$bin")
+        ln -sf "/opt/cmake/bin/$name" "/usr/bin/$name"
+    done
+}
+
+remove() {
+    for bin in /opt/cmake/bin/*; do
+        [ -e "$bin" ] && rm -f "/usr/bin/$(basename "$bin")"
+    done
+    rm -rf /opt/cmake
+}

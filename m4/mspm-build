@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="1.4.21"
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f m4-$version.tar.gz
+    wget https://ftp.gnu.org/gnu/m4/m4-$version.tar.gz
+    rm -rf m4/
+    mkdir -p m4/
+    tar -xf m4-$version.tar.gz -C m4 --strip-components=1
+    cd m4/
+    ./configure --prefix=/usr
+    make
+    make install
+}
+
+remove() {
+    cd m4/
+    make uninstall
+}

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+version="7.1.0"
+depends=("bash" "make" "tar")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/dylanaraps/neofetch/archive/refs/tags/$version.tar.gz
+    rm -rf neofetch/
+    mkdir -p neofetch/
+    tar -xf $version.tar.gz -C neofetch --strip-components=1
+    cd neofetch/
+    make install
+}
+
+remove() {
+    cd neofetch/
+    make uninstall
+}

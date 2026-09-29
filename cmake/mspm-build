@@ -1,0 +1,22 @@
+#!/bin/bash
+
+version="4.4.3"
+conflicts=("cmake-bin")
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f v$version.tar.gz
+    wget https://github.com/Kitware/CMake/archive/refs/tags/v$version.tar.gz
+    rm -rf cmake/
+    mkdir -p cmake/
+    tar -xf v$version.tar.gz -C cmake --strip-components=1
+    cd cmake/
+    ./configure --prefix=/usr --docdir=share --mandir=share
+    make
+    make install
+}
+
+remove() {
+    cd cmake/
+    make uninstall
+}

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+version="8.22.0"
+depends=("openssl" "autoconf" "automake" "libtool" "libpsl" "make" "gcc" "glibc" "tar" "perl")
+
+install() {
+    rm -f curl-8_22_0.tar.gz
+    wget https://github.com/curl/curl/archive/refs/tags/curl-8_22_0.tar.gz
+    rm -rf curl/
+    mkdir -p curl/
+    tar -xf curl-8_22_0.tar.gz -C curl --strip-components=1
+    cd curl/
+    autoreconf -fi
+    ./configure --prefix=/usr --with-openssl
+    make
+    make install
+}
+
+remove() {
+    cd curl/
+    make uninstall
+}

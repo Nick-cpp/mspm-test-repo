@@ -1,0 +1,24 @@
+#!/bin/bash
+
+version="2.43"
+depends=("make" "gcc" "bash" "tar")
+
+install() {
+    rm -f glibc-$version.tar.gz
+    wget https://ftp.gnu.org/gnu/glibc/glibc-$version.tar.gz
+    rm -rf glibc/
+    mkdir -p glibc/
+    tar -xf glibc-$version.tar.gz -C glibc --strip-components=1
+    cd glibc/
+    mkdir -p build/
+    cd build/
+    echo -e '#!/usr/bin/perl\nexit 0;' > ../scripts/test-installation.pl
+    ../configure --prefix=/usr --with-headers=/usr/include --without-selinux --libdir=/lib --disable-sanity-checks
+    make
+    make install
+}
+
+remove() {
+    cd glibc/build/
+    make uninstall
+}

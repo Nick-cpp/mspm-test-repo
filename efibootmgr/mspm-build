@@ -1,0 +1,20 @@
+#!/bin/bash
+
+version="18"
+depends=("efivar" "popt" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/rhboot/efibootmgr/archive/refs/tags/$version.tar.gz
+    rm -rf efibootmgr/
+    mkdir -p efibootmgr/
+    tar -xf $version.tar.gz -C efibootmgr --strip-components=1
+    cd efibootmgr/
+	make EFIDIR=NoPersonalLife-Linux
+	make EFIDIR=NoPersonalLife-Linux MANDOC=true install
+}
+
+remove() {
+    cd efibootmgr/
+	make EFIDIR=NoPersonalLife-Linux MANDOC=true uninstall
+}

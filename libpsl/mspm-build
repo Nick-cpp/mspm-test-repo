@@ -1,0 +1,26 @@
+#!/bin/bash
+
+version="0.21.5"
+depends=("automake" "autoconf" "libtool" "gettext" "make" "gcc" "glibc" "tar" "perl")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/rockdaboot/libpsl/archive/refs/tags/$version.tar.gz
+    rm -rf libpsl/
+    mkdir -p libpsl/
+    tar -xf $version.tar.gz -C libpsl --strip-components=1
+    cd libpsl/
+    echo "CLEANFILES =" > gtk-doc.make
+    echo "EXTRA_DIST =" >> gtk-doc.make
+    autoreconf -fiv
+    ./configure --prefix=/usr
+    mkdir -p list/
+    wget -O list/public_suffix_list.dat https://publicsuffix.org/list/public_suffix_list.dat
+    make
+    make install
+}
+
+remove() {
+    cd libpsl/
+    make uninstall
+}

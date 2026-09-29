@@ -1,0 +1,32 @@
+#!/bin/bash
+
+version="6.6"
+depends=("pkgconf" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f ncurses-$version.tar.gz
+    wget https://ftp.gnu.org/gnu/ncurses/ncurses-$version.tar.gz
+    rm -rf ncurses/
+    mkdir -p ncurses/
+    tar -xf ncurses-$version.tar.gz -C ncurses --strip-components=1
+    cd ncurses/
+    ./configure --prefix=/usr --mandir=/usr/share/man --with-shared --without-debug --enable-widec --enable-pc-files --with-pkg-config-libdir=/usr/lib/pkgconfig --with-termlib
+    make
+    make install
+    ln -sfv /lib/libtinfow.so /lib/libtinfo.so
+    ln -sfv libncursesw.so /lib/libncurses.so
+    ln -sfv libncursesw.so.6 /lib/libncurses.so.6
+    ln -sfv tinfow.pc /lib/pkgconfig/tinfo.pc
+    ln -sfv ncursesw.pc /lib/pkgconfig/ncurses.pc
+}
+
+remove() {
+    cd ncurses/
+    make uninstall
+    rm -f /lib/libtinfo.so
+    rm -f /lib/libncurses.so
+    rm -f /lib/libncurses.so.6
+    rm -f /lib/pkgconfig/tinfo.pc
+    rm -f /lib/pkgconfig/tinfow.pc
+    rm -f /lib/pkgconfig/ncurses.pc
+}

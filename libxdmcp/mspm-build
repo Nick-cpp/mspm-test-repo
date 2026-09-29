@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="1.1.5"
+depends=("make" "gcc" "glibc" "tar" "xz-utils" "xorgproto")
+
+install() {
+    rm -f libXdmcp-$version.tar.xz
+    wget https://www.x.org/pub/individual/lib/libXdmcp-$version.tar.xz
+    rm -rf libXdmcp/
+    mkdir -p libXdmcp/
+    tar -xf libXdmcp-$version.tar.xz -C libXdmcp --strip-components=1
+    cd libXdmcp/
+    ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --docdir=/usr/share/doc/libXdmcp-$version
+    make
+    make install
+}
+
+remove() {
+    cd libXdmcp/
+    make uninstall
+}

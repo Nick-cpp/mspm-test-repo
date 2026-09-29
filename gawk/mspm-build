@@ -1,0 +1,23 @@
+#!/bin/bash
+
+version="5.3.2"
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f gawk-$version.tar.gz
+    wget https://ftp.gnu.org/gnu/gawk/gawk-$version.tar.gz
+    rm -rf gawk/
+    mkdir -p gawk/
+    tar -xf gawk-$version.tar.gz -C gawk --strip-components=1
+    cd gawk/
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make
+    make install
+    ln -sfv /usr/bin/gawk /usr/bin/awk
+}
+
+remove() {
+    cd gawk/
+    make uninstall
+    rm -f /usr/bin/awk
+}

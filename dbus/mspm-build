@@ -1,0 +1,47 @@
+#!/bin/bash
+
+version="1.16.2"
+depends=("cmake||cmake-bin" "gcc" "glibc" "tar")
+
+install() {
+    rm -f dbus-$version.tar.xz
+    wget https://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.xz
+    rm -rf dbus/
+    mkdir -p dbus/
+    tar -xf dbus-$version.tar.xz -C dbus --strip-components=1
+    cd dbus/
+    cmake -B build -S . \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
+        -DCMAKE_BUILD_TYPE=Release    make
+    cmake --build build
+    cmake --install build
+    cd ..
+    rm -f service
+    wget -O service https://raw.githubusercontent.com/Nick-cpp/npl-init-services/main/dbus/dbus
+    mkdir -p /etc/npl-init/sv/
+    cp service /etc/npl-init/sv/dbus
+    chmod +x /etc/npl-init/sv/dbus
+    addgroup -g 81 messagebus 2>/dev/null || groupadd -g 81 messagebus 2>/dev/null || true
+    addgroup wheel
+    addgroup netdev
+
+    adduser -D -S -G messagebus -h /run/dbus -s /bin/false messagebus
+}
+
+remove() {
+    deluser messagebus
+    delgroup messagebus
+    rm -f /usr/bin/dbus-*
+    rm -f /usr/lib/libdbus-1*
+    rm -f /usr/lib/pkgconfig/dbus-1.pc
+    rm -rf /usr/lib/cmake/DBus1
+    rm -rf /usr/include/dbus-1.0
+    rm -rf /usr/lib/dbus-1.0
+    rm -rf /etc/dbus-1
+    rm -rf /usr/share/dbus-1
+    rm -rf /usr/share/doc/dbus
+    rm -f /etc/npl-init/sv/dbus
+}

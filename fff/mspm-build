@@ -1,0 +1,19 @@
+#!/bin/bash
+
+version="2.2"
+depends=("bash" "make" "tar")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/dylanaraps/fff/archive/refs/tags/$version.tar.gz
+    rm -rf fff/
+    mkdir -p fff/
+    tar -xf $version.tar.gz -C fff --strip-components=1
+    cd fff/
+    make install
+}
+
+remove() {
+    cd fff/
+    make uninstall
+}

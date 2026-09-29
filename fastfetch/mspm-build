@@ -1,0 +1,20 @@
+#!/bin/bash
+
+version="2.68.1"
+conflicts=("fastfetch-bin")
+depends=("cmake-bin||cmake" "gcc" "glibc" "tar")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/fastfetch-cli/fastfetch/archive/refs/tags/$version.tar.gz
+    rm -rf fastfetch/
+    mkdir -p fastfetch/
+    tar -xf $version.tar.gz -C fastfetch --strip-components=1
+    cd fastfetch/
+    ./run.sh
+    cp build/fastfetch /usr/bin/fastfetch
+}
+
+remove() {
+    rm -f /usr/bin/fastfetch
+}

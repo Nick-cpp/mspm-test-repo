@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="4.0.1"
+depends=("perl" "make" "gcc" "glibc" "zlib" "tar")
+
+install() {
+    rm -f openssl-$version.tar.gz
+    wget https://github.com/openssl/openssl/releases/download/openssl-$version/openssl-$version.tar.gz
+    rm -rf openssl/
+    mkdir -p openssl/
+    tar -xf openssl-$version.tar.gz -C openssl --strip-components=1
+    cd openssl/
+    ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+    make
+    make install
+}
+
+remove() {
+    cd openssl/
+    make uninstall
+}

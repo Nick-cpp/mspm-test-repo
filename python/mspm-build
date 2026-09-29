@@ -1,0 +1,23 @@
+#!/bin/bash
+
+version="3.14.6"
+depends=("libexpat" "openssl" "zlib" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f Python-$version.tar.xz
+    wget https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+    rm -rf Python/
+    mkdir -p Python/
+    tar -xf Python-$version.tar.xz -C Python --strip-components=1
+    cd Python/
+    ./configure --prefix=/usr --enable-shared --with-system-expat --without-ensurepip --enable-optimizations --with-openssl=/etc/ssl EXTRA_LDFLAGS="-lgcov"
+    make
+    make install
+    ln -sfv /usr/bin/python3 /usr/bin/python
+}
+
+remove() {
+    cd Python/
+    make uninstall
+    rm -f /usr/bin/python
+}

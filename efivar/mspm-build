@@ -1,0 +1,20 @@
+#!/bin/bash
+
+version="39"
+depends=("make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f $version.tar.gz
+    wget https://github.com/rhboot/efivar/archive/refs/tags/$version.tar.gz
+    rm -rf efivar/
+    mkdir -p efivar/
+    tar -xf $version.tar.gz -C efivar --strip-components=1
+    cd efivar/
+	make CFLAGS="-Wno-error" MANDOC=true
+	make install MANDOC=true
+}
+
+remove() {
+    cd efivar/
+    make uninstall MANDOC=true
+}

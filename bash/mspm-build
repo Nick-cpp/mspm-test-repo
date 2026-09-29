@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="5.3"
+depends=("ncurses" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f bash-$version.tar.gz
+    wget https://ftp.gnu.org/gnu/bash/bash-$version.tar.gz
+    rm -rf bash/
+    mkdir -p bash/
+    tar -xf bash-$version.tar.gz -C bash --strip-components=1
+    cd bash/
+    ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --without-bash-malloc
+    make
+    make install
+}
+
+remove() {
+    cd bash/
+    make uninstall
+}

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+version="1.17.0"
+depends=("make" "gcc" "glibc" "tar" "xz-utils")
+
+install() {
+    rm -f xcb-proto-$version.tar.xz
+    wget https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-$version.tar.xz
+    rm -rf xcb-proto/
+    mkdir -p xcb-proto/
+    tar -xf xcb-proto-$version.tar.xz -C xcb-proto --strip-components=1
+    cd xcb-proto/
+    PYTHON=python3 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+    make install
+}
+
+remove() {
+    cd xcb-proto/
+    make uninstall
+}

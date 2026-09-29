@@ -1,0 +1,21 @@
+#!/bin/bash
+
+version="9.1.1652"
+depends=("ncurses" "python" "make" "gcc" "glibc" "tar")
+
+install() {
+    rm -f v$version.tar.gz
+    wget https://github.com/vim/vim/archive/refs/tags/v$version.tar.gz
+    rm -rf vim/
+    mkdir -p vim/
+    tar -xf v$version.tar.gz -C vim --strip-components=1
+    cd vim/
+    ./configure --prefix=/usr --sysconfdir=/etc --with-features=huge --enable-python3interp=yes
+    make
+    make install
+}
+
+remove() {
+    cd vim/
+    make uninstall
+}
