@@ -1,0 +1,22 @@
+#!/bin/bash
+
+version="1.5.5"
+depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
+lib="libXrandr"
+
+install() {
+    rm -f $lib-$version.tar.xz
+    wget https://www.x.org/pub/individual/lib/$lib-$version.tar.xz
+    rm -rf $lib/
+    mkdir -p $lib/
+    tar -xf $lib-$version.tar.xz -C $lib --strip-components=1
+    cd $lib/
+    ./configure --prefix=/usr --sysconfdir=/etc --disable-static --localstatedir=/var
+    make
+    make install
+}
+
+remove() {
+    cd $lib/
+    make uninstall
+}
