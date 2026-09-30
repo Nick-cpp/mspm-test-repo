@@ -1,8 +1,8 @@
 #!/bin/bash
 
-version="1.0.10"
-depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
-lib="libFS"
+version="0.4.7"
+depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils" "libXfixes")
+lib="libXcomposite"
 
 install() {
     rm -f $lib-$version.tar.xz

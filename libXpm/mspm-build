@@ -1,8 +1,8 @@
 #!/bin/bash
 
-version="1.0.10"
+version="1.5.19"
 depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
-lib="libFS"
+lib="libXpm"
 
 install() {
     rm -f $lib-$version.tar.xz

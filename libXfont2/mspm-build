@@ -1,8 +1,8 @@
 #!/bin/bash
 
-version="1.0.10"
+version="2.0.9"
 depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
-lib="libFS"
+lib="libXfont2"
 
 install() {
     rm -f $lib-$version.tar.xz

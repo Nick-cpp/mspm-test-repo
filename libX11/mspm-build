@@ -1,7 +1,7 @@
 #!/bin/bash
 
 version="1.8.13"
-depends=("make" "gcc" "glibc" "tar" "fontconfig" "dbus" "libxcb" "xz-utils")
+depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
 lib="libX11"
 
 install() {

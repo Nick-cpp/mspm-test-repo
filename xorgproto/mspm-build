@@ -1,7 +1,7 @@
 #!/bin/bash
 
 version="2025.1"
-depends=("make" "gcc" "glibc" "tar" "xz-utils" "util-macros")
+depends=("make" "gcc" "glibc" "tar" "xz-utils" "util-macros" "ninja" "meson")
 
 install() {
     rm -f xorgproto-$version.tar.xz

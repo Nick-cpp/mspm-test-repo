@@ -25,10 +25,10 @@ install() {
     cp service /etc/npl-init/sv/dbus
     chmod +x /etc/npl-init/sv/dbus
     addgroup -g 81 messagebus 2>/dev/null || groupadd -g 81 messagebus 2>/dev/null || true
-    addgroup wheel
-    addgroup netdev
+    addgroup wheel 2>/dev/null || true
+    addgroup netdev 2>/dev/null || true
 
-    adduser -D -S -G messagebus -h /run/dbus -s /bin/false messagebus
+    adduser -D -S -G messagebus -h /run/dbus -s /bin/false messagebus 2>/dev/null || true
 }
 
 remove() {

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-version="1.0.10"
+version="1.3.1"
 depends=("make" "gcc" "glibc" "tar" "fontconfig" "libxcb" "xz-utils")
-lib="libFS"
+lib="libXmu"
 
 install() {
     rm -f $lib-$version.tar.xz
